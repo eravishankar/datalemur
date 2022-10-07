@@ -1,0 +1,15 @@
+WITH deposits AS (SELECT account_id,SUM(amount) as deposit
+FROM transactions
+WHERE transaction_type='Deposit'
+GROUP BY account_id),
+
+withdrawls AS (SELECT account_id,SUM(amount) as withdrawl
+FROM transactions
+WHERE transaction_type='Withdrawal'
+GROUP BY account_id)
+
+SELECT a.account_id,
+a.deposit-b.withdrawl as final_balance
+FROM deposits a
+JOIN withdrawls b
+ON a.account_id=b.account_id

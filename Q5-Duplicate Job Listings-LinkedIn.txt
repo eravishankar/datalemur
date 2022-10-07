@@ -1,0 +1,25 @@
+/* My solution */
+
+with concat_table as (
+SELECT job_id,concat(company_id,title,description) as concat_text
+FROM job_listings)
+
+
+SELECT COUNT(*) as duplicate_companies from
+(SELECT  COUNT(job_id) AS dup_companies
+FROM concat_table
+GROUP BY concat_text
+having COUNT(job_id)>1) tab1
+
+/*Alternate solution*/
+
+WITH company_count as (SELECT company_id,title,description,count(job_id) as dup_jobs
+FROM job_listings
+GROUP BY company_id,title,description)
+
+SELECT count(DISTINCT company_id) as duplicate_companies 
+FROM company_count 
+WHERE dup_jobs>1
+
+
+

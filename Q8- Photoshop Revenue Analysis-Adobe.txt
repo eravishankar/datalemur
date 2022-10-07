@@ -1,0 +1,9 @@
+WITH photoshop_table AS
+(
+SELECT customer_id FROM adobe_transactions WHERE product ='Photoshop'
+)
+
+SELECT customer_id, SUM(revenue) FROM adobe_transactions
+WHERE customer_id in (SELECT customer_id FROM photoshop_table)
+AND product !='Photoshop'
+GROUP BY customer_id

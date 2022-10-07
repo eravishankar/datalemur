@@ -1,0 +1,12 @@
+WITH joined_table as 
+(
+
+SELECT a.profile_id,
+a.followers as emp_followers,
+b.followers as com_followers
+FROM personal_profiles a
+JOIN company_pages b ON a.employer_id=b.company_id)
+
+SELECT profile_id FROM joined_table
+WHERE com_followers<emp_followers
+order by 1 asc;
